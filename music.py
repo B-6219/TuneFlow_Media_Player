@@ -5,13 +5,24 @@ from tkinter import messagebox
 from tkinter import filedialog
 
 root =Tk()
-root.geometry('400x400')
+root.geometry('400x350')
 root.title('Music Player')
 root.resizable(False,False)
 
+
+#==============color codes for theme TuneFlow
+BG_COLOR = "#121212"
+FG_COLOR = "#FFFFFF"
+ACCENT_BLUE = "#00C3FF"
+ACCENT_GREEN = "#00FFAB"  
+LISTBOX_BG = "#1E1E1E"
+
+root.configure(bg=BG_COLOR)
+
+
 pygame.mixer.init()
 
-menu_bar = Menu(root)
+menu_bar = Menu(root, bg=BG_COLOR, fg=FG_COLOR, tearoff=False)
 root.config(menu=menu_bar)
 
 songs = []
@@ -76,15 +87,14 @@ def prev_music():
     except:
         pass
     
-    
-    
+
 # =========== Graphical User Interface ===========
 
-organise_menu = Menu(menu_bar,tearoff=False)
+organise_menu = Menu(menu_bar,tearoff=False, bg=BG_COLOR, fg=FG_COLOR)
 organise_menu.add_command(label='Select Folder',command=load_music)
 menu_bar.add_cascade(label='Organise',menu=organise_menu)
 
-song_list = Listbox(root, bg='black',fg='green',width=100,height=15)
+song_list = Listbox(root,width=100,height=15, bg=LISTBOX_BG, fg=ACCENT_GREEN, selectbackground=ACCENT_BLUE,)
 song_list.pack()
 
 play_btn_image = PhotoImage(file="play.png")
@@ -92,13 +102,15 @@ pause_btn_image = PhotoImage(file="pause.png")
 next_btn_image = PhotoImage(file="nextt.png")
 prev_btn_image = PhotoImage(file="prev.png")
 
-control_panel = Frame(root)
+control_panel = Frame(root,bg=BG_COLOR)
 control_panel.pack()
 
-play_btn = Button(control_panel, image=play_btn_image,borderwidth=0,command=play_music,height=32,width=32)
-pause_btn = Button(control_panel, image=pause_btn_image,borderwidth=0,command=pause_music,height=32,width=32)
-next_btn = Button(control_panel, image=next_btn_image,borderwidth=0,command=next_music,height=32,width=32,fg='green')
-prev_btn = Button(control_panel, image=prev_btn_image,borderwidth=0,command=prev_music,height=32,width=32)
+btn_style = {"borderwidth": 0, "height": 32, "width": 32, "bg": BG_COLOR, "activebackground": BG_COLOR}
+
+play_btn = Button(control_panel, image=play_btn_image, command=play_music, **btn_style)
+pause_btn = Button(control_panel, image=pause_btn_image, command=pause_music, **btn_style)
+next_btn = Button(control_panel, image=next_btn_image, command=next_music, **btn_style)
+prev_btn = Button(control_panel, image=prev_btn_image, command=prev_music, **btn_style)
 
 
 play_btn.grid(row= 0,column=1,padx=7,pady=10)
